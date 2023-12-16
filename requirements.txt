@@ -1,3 +1,4 @@
-Django==4.1.7
-django-extensions==3.2.1
+Django==4.2.7
+django-extensions==3.2.3
 ipython
+bpython
