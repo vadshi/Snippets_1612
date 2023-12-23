@@ -23,7 +23,10 @@ def add_snippet_page(request):
     if request.method == "POST":
         form = SnippetForm(request.POST)
         if form.is_valid():
-            form.save()
+            snippet = form.save(commit=False)
+            if request.user.is_authenticated:
+                snippet.user = request.user
+                snippet.save()
             return redirect("snippets-list")
         return render(request,'add_snippet.html', {'form': form})
 
@@ -78,6 +81,7 @@ def snippet_delete(request, snippet_id):
     snippet = Snippet.objects.get(id=snippet_id)
     snippet.delete()
     return redirect("snippets-list")
+
 
 def login(request):
     if request.method == 'POST':
