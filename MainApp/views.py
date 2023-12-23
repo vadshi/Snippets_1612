@@ -44,7 +44,7 @@ def add_snippet_page(request):
 
 
 def snippets_page(request):
-    snippets = Snippet.objects.all()
+    snippets = Snippet.objects.filter(public=True)
     context = {
         'pagename': 'Просмотр сниппетов',
         'snippets': snippets,
@@ -85,6 +85,7 @@ def snippet_edit(request, snippet_id):
         snippet.name = data_form["name"]
         snippet.code = data_form["code"]
         snippet.creation_date = data_form["creation_date"]
+        snippet.public = data_form.get("public", False)
         snippet.save()
         return redirect("snippets-list")
 
