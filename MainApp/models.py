@@ -17,5 +17,5 @@ class Snippet(models.Model):
     public = models.BooleanField(default=True)  # True = public, False = private
 
     def __repr__(self):
-        return f'Snippet({self.name})'
+        return f'Snippet({self.name}, {self.lang})'
 
