@@ -3,6 +3,7 @@ from django.shortcuts import render, redirect
 from MainApp.forms import SnippetForm
 from django.core.exceptions import ObjectDoesNotExist
 from MainApp.models import Snippet
+from django.contrib import auth
 
 
 def index_page(request):
@@ -78,7 +79,23 @@ def snippet_delete(request, snippet_id):
     snippet.delete()
     return redirect("snippets-list")
 
+def login(request):
+    if request.method == 'POST':
+        username = request.POST.get("username")
+        password = request.POST.get("password")
+        user = auth.authenticate(request, username=username, password=password)
+        if user is not None:
+            auth.login(request, user)
+        else:
+            # Return error message
+            pass
+    return redirect('home')
 
+
+
+def logout(request):
+    auth.logout(request)
+    return redirect("home")
 
 # def create_snippet(request):
 #     if request.method == "POST":
