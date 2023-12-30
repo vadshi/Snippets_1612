@@ -18,6 +18,7 @@ def my_snippets(request):
     context = {
         'pagename': 'Мои сниппеты',
         'snippets': snippets,
+        'count': snippets.count()
         }
     return render(request, 'pages/view_snippets.html', context)
 
@@ -49,6 +50,7 @@ def snippets_page(request):
     context = {
         'pagename': 'Просмотр сниппетов',
         'snippets': snippets,
+        'count': snippets.count()
         }
     return render(request, 'pages/view_snippets.html', context)
 

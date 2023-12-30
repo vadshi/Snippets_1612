@@ -18,6 +18,9 @@ class Snippet(models.Model):
 
     def __repr__(self):
         return f'Snippet({self.name}, {self.lang})'
+    
+    def __str__(self):
+        return repr(self)
 
 
 class Comment(models.Model):
@@ -25,3 +28,6 @@ class Comment(models.Model):
     creation_date = models.DateTimeField(auto_now=True)
     author = models.ForeignKey(to=User, on_delete=models.CASCADE)
     snippet = models.ForeignKey(to=Snippet, on_delete=models.CASCADE, related_name="comments")
+
+    def __str__(self):
+        return f'Comment({self.text})'
