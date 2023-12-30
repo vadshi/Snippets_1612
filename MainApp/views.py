@@ -58,11 +58,13 @@ def snippet_detail(request, snippet_id):
         snippet = Snippet.objects.get(id=snippet_id)
     except ObjectDoesNotExist:
         raise Http404
+    
     context = {
         'pagename': 'Просмотр сниппета',
         'snippet': snippet,
         "type": "view",
         "comment_form": CommentForm(),
+        # "comments": snippet.comments.all(),
         }
     return render(request, 'pages/snippet_detail.html', context)
 
