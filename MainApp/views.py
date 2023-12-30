@@ -46,7 +46,10 @@ def add_snippet_page(request):
 
 
 def snippets_page(request):
-    snippets = Snippet.objects.filter(public=True)
+    snippets = Snippet.objects.filter(public=True).order_by("name")
+    lang = request.GET.get("lang")
+    if lang:
+        snippets = Snippet.objects.filter(lang=lang)
     context = {
         'pagename': 'Просмотр сниппетов',
         'snippets': snippets,
