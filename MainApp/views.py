@@ -1,6 +1,6 @@
-from django.http import Http404
+from django.http import Http404, HttpResponseRedirect
 from django.shortcuts import render, redirect
-from MainApp.forms import SnippetForm, UserRegistrationForm
+from MainApp.forms import SnippetForm, UserRegistrationForm, CommentForm
 from django.core.exceptions import ObjectDoesNotExist
 from MainApp.models import Snippet
 from django.contrib import auth, messages
@@ -62,6 +62,7 @@ def snippet_detail(request, snippet_id):
         'pagename': 'Просмотр сниппета',
         'snippet': snippet,
         "type": "view",
+        "comment_form": CommentForm(),
         }
     return render(request, 'pages/snippet_detail.html', context)
 
@@ -137,3 +138,15 @@ def logout(request):
     auth.logout(request)
     return redirect("home")
 
+
+def comment_add(request):
+    if request.method == "POST":
+        comment_form = CommentForm(request.POST)
+        if comment_form.is_valid():
+            snippet_id = request.POST["snippet_id"]
+            snippet = Snippet.objects.get(id=snippet_id)
+            comment = comment_form.save(commit=False)
+            comment.author = request.user
+            comment.snippet = snippet
+            comment.save()
+            return HttpResponseRedirect(request.META.get("HTTP_REFERER"))
